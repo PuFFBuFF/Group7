@@ -2,50 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
-{
-    public float speed = 5.0f; // 可以在Unity编辑器中调整速度
+public class NewBehaviourScript : MonoBehaviour {
+    public float speed = 2.0f; // 控制速度
 
-    public Color32 myR = new Color32(233, 113, 113, 255); 
-    public Color32 myY = new Color32(234, 238, 134, 255); 
+    // 预定义颜色
+    public Color32 myR = new Color32(233, 113, 113, 255);
+    public Color32 myY = new Color32(234, 238, 134, 255);
     public Color32 myB = new Color32(137, 150, 236, 255);
-    public Color[] colors; // 定义颜色数组
-    private int currentColorIndex = 0; // 用于追踪当前颜色索引的变量
+    private Color[] colors; // 存储颜色的数组
+    private int currentColorIndex = 0; // 当前颜色索引
 
+    private Rigidbody2D rb; // Rigidbody2D组件
+    public Color32 bgColor; // 背景颜色
+    public bool canMove = true; // 是否可以移动
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        colors = new Color[] { myR, myY, myB };
+    void Start() {
+        colors = new Color[] { myR, myY, myB }; // 初始化颜色数组
+        rb = GetComponent<Rigidbody2D>(); // 获取Rigidbody2D组件
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Movement
-        float moveHorizontal = Input.GetAxis("Horizontal"); // 获取水平轴（A和D键或左右箭头）的输入
-        float moveVertical = Input.GetAxis("Vertical"); // 获取垂直轴（W和S键或上下箭头）的输入
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical); // 创建一个二维向量，基于输入方向
-        transform.position += (Vector3)movement * speed * Time.deltaTime; // 移动小球
+    void Update() {
+        HandleColorChange(); // 处理颜色变化
+        HandleMovement(); // 处理移动
+    }
 
-        // Color Changing
-        if (Input.GetKeyDown(KeyCode.Space)) // 检查是否按下空格键
-        {
-            currentColorIndex = (currentColorIndex + 1) % colors.Length; // 更新颜色索引，循环回数组开始如果超出范围
-            GetComponent<SpriteRenderer>().color = colors[currentColorIndex]; // 应用新的颜色
+    void HandleColorChange() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            // 更新当前颜色索引并循环
+            currentColorIndex = (currentColorIndex + 1) % colors.Length;
+            // 应用新颜色
+            GetComponent<SpriteRenderer>().color = colors[currentColorIndex];
+
+            // 更新canMove状态
+            canMove = GetComponent<SpriteRenderer>().color != bgColor;
+        }
+    }
+
+    void HandleMovement() {
+        if (canMove) {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+            transform.position += (Vector3)movement * speed * Time.deltaTime;
+            rb.simulated = true;
         }
 
+        if(!canMove) {
+            if (rb != null) {
+                rb.simulated = false; // 禁用物理模拟
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("触发器触发了"); // 首先检查这个是否被打印，确保方法被调用
-
         Background background = other.GetComponent<Background>();
         if (background != null) {
-            Debug.Log("当前背景的ID: " + background.backgroundID);
-        } else {
-            Debug.Log("触发器内没有Background组件");
+            // 当进入新的背景时更新背景颜色
+            bgColor = background.bgColor;
+            // 基于当前颜色和背景颜色更新canMove状态
+            canMove = GetComponent<SpriteRenderer>().color != bgColor;
+            HandleMovement(); // 处理移动
         }
     }
-
 }

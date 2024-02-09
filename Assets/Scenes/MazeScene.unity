@@ -748,7 +748,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dff57b96c4e947bfbd72a005a94abf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundID: Red
+  backgroundID: defaultID
+  bgColor:
+    serializedVersion: 2
+    rgba: 4285624809
 --- !u!1 &577485703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,7 +1040,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5372549, g: 0.5882353, b: 0.9254902, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1045,7 +1048,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!4 &973319622
 Transform:
@@ -1074,7 +1077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7a21f4915554dea821a598a5cd09c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 10
   myR:
     serializedVersion: 2
     rgba: 4285624809
@@ -1084,7 +1087,10 @@ MonoBehaviour:
   myB:
     serializedVersion: 2
     rgba: 4293695113
-  colors: []
+  bgColor:
+    serializedVersion: 2
+    rgba: 0
+  canMove: 1
 --- !u!1 &977481030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,6 +1235,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundID: Blue
+  bgColor:
+    serializedVersion: 2
+    rgba: 4293695113
 --- !u!1 &1021584347
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,7 +1715,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1794,6 +1803,8 @@ MonoBehaviour:
   speed: 5
   minPosition: {x: -5, y: -5}
   maxPosition: {x: 5, y: 5}
+  target: {fileID: 973319622}
+  chaseDistance: 3
 --- !u!1 &1755048550
 GameObject:
   m_ObjectHideFlags: 0
@@ -1937,7 +1948,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dff57b96c4e947bfbd72a005a94abf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundID: Yellow
+  backgroundID: defaultID
+  bgColor:
+    serializedVersion: 2
+    rgba: 4287033066
 --- !u!1 &2046411578
 GameObject:
   m_ObjectHideFlags: 0
