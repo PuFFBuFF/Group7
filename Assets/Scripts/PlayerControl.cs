@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour {
-    public float speed = 2.0f; // 控制速度
+    public float speed = 3.0f; // 控制速度
 
     // 预定义颜色
     public Color32 myR = new Color32(233, 113, 113, 255);
@@ -15,9 +15,11 @@ public class NewBehaviourScript : MonoBehaviour {
     private Rigidbody2D rb; // Rigidbody2D组件
     public Color32 bgColor; // 背景颜色
     public bool canMove = true; // 是否可以移动
+    public Color32 curColor; // 当前player的颜色
 
     void Start() {
         colors = new Color[] { myR, myY, myB }; // 初始化颜色数组
+        curColor = myB;
         rb = GetComponent<Rigidbody2D>(); // 获取Rigidbody2D组件
     }
 
@@ -32,7 +34,8 @@ public class NewBehaviourScript : MonoBehaviour {
             currentColorIndex = (currentColorIndex + 1) % colors.Length;
             // 应用新颜色
             GetComponent<SpriteRenderer>().color = colors[currentColorIndex];
-
+            ChangeColor(colors[currentColorIndex]);
+            curColor = GetComponent<SpriteRenderer>().color;
             // 更新canMove状态
             canMove = GetComponent<SpriteRenderer>().color != bgColor;
         }
@@ -54,14 +57,25 @@ public class NewBehaviourScript : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        Background background = other.GetComponent<Background>();
-        if (background != null) {
-            // 当进入新的背景时更新背景颜色
-            bgColor = background.bgColor;
-            // 基于当前颜色和背景颜色更新canMove状态
-            canMove = GetComponent<SpriteRenderer>().color != bgColor;
-            HandleMovement(); // 处理移动
-        }
+    void OnEnable() {
+        FloorColorChangeScript.OnColorChange += UpdateBgColor;
     }
+
+    void OnDisable() {
+        FloorColorChangeScript.OnColorChange -= UpdateBgColor;
+    }
+
+    void UpdateBgColor(Color newColor) {
+        bgColor = newColor;
+        // 每次颜色更新时可能需要重新评估canMove状态
+        canMove = GetComponent<SpriteRenderer>().color != bgColor;
+        HandleMovement(); // 处理移动
+    }
+
+    void ChangeColor(Color newColor) {
+        var renderer = GetComponent<SpriteRenderer>();
+        var material = renderer.material;
+        material.SetColor("_Color", newColor); // 设置你在Shader中定义的_Color属性
+    }
+
 }
