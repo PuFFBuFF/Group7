@@ -9,7 +9,7 @@ public class FloorColorChangeScript : MonoBehaviour {
     private SpriteRenderer spriteRenderer; // SpriteRenderer组件的引用
 
     public float minTime = 2.0f; // 更换颜色的最小时间间隔
-    public float maxTime = 4.0f; // 更换颜色的最大时间间隔
+    public float maxTime = 3.0f; // 更换颜色的最大时间间隔
     private float timer; // 计时器
     private float timeToChange; // 下一次更换颜色的时间点
 
@@ -23,12 +23,12 @@ public class FloorColorChangeScript : MonoBehaviour {
         SetRandomTime(); // 初始化随机时间
         colors = new Color[] { myR, myY, myB }; // 初始化颜色数组
         curColor = myR; // 将当前颜色初始化为红色
-        spriteRenderer.color = myR; // 将SpriteRenderer的颜色设置为红色
+        spriteRenderer.color = myY; // 将SpriteRenderer的颜色设置为红色
+        ChangeColor();
     }
 
     void Update() {
         timer += Time.deltaTime; // 更新计时器
-
         // 检查是否达到了更换颜色的时间
         if (timer >= timeToChange) {
             ChangeColor(); // 更换颜色

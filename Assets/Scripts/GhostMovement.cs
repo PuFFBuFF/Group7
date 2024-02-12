@@ -73,7 +73,6 @@ public class GhostMovement : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("OnTriggerEnter2D");
         // 检查触发器碰撞的对象是否为玩家
         if (other.gameObject == target.gameObject) {
             // 获取玩家的当前颜色和背景颜色
@@ -91,8 +90,6 @@ public class GhostMovement : MonoBehaviour {
             } else {
                 // 如果颜色不同，执行原有逻辑
                 Debug.Log("Ghost caught the player.");
-                Debug.Log("bgcolor = " + targetScript.bgColor);
-                Debug.Log("curColor = " + targetScript.curColor);
                 Destroy(other.gameObject);
                 GameOver();
             }
@@ -101,7 +98,6 @@ public class GhostMovement : MonoBehaviour {
 
     // 游戏结束逻辑
     private void GameOver() {
-        Debug.Log("Game Over! Restarting game or showing game over screen...");
         // 加载一个游戏结束场景
         SceneManager.LoadScene("GameOverScene");
     }

@@ -35,7 +35,7 @@ public class NewBehaviourScript : MonoBehaviour {
             // 应用新颜色
             GetComponent<SpriteRenderer>().color = colors[currentColorIndex];
             ChangeColor(colors[currentColorIndex]);
-            curColor = GetComponent<SpriteRenderer>().color;
+            curColor = colors[currentColorIndex];
             // 更新canMove状态
             canMove = GetComponent<SpriteRenderer>().color != bgColor;
         }

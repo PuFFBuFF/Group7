@@ -22,7 +22,6 @@ public class YouWinTrigger : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("OnTriggerEnter2D");
         // 检查触发器碰撞的对象是否为玩家
         if (other.gameObject == target.gameObject) {
             YouWin();
@@ -31,7 +30,6 @@ public class YouWinTrigger : MonoBehaviour
 
     // 游戏结束逻辑
     private void YouWin() {
-        Debug.Log("You Win!!");
         // 加载一个游戏结束场景
         SceneManager.LoadScene("YouWinScene");
     }
